@@ -11,6 +11,12 @@ static char * test_creation() {
     mu_assert("Error: grid x cells should be 10", g->cells_x == 10);
     mu_assert("Error: grid y cells should be 10", g->cells_y == 10);
 
+    for (int x = 0; x < (g->cells_x + 2); x++) {
+        for (int y = 0; y < (g->cells_y + 2); y++) {
+            mu_assert("Error: grid cells should be zero", g->grid[x][y] == 0);
+        }
+    }
+
     gol_cleanup_grid(g);
     return 0;
 }
@@ -21,6 +27,12 @@ static char * test_iterate_creation() {
     GOL new_g = gol_iterate_grid(g);
 
     mu_assert("Error: iterated grid should be a new grid", g != new_g);
+
+    for (int x = 0; x < (g->cells_x + 2); x++) {
+        for (int y = 0; y < (g->cells_y + 2); y++) {
+            mu_assert("Error: iterated grid cells should be zero", new_g->grid[x][y] == 0);
+        }
+    }
 
     gol_cleanup_grid(new_g);
     return 0;
