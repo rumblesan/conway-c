@@ -25,6 +25,38 @@ static char * test_iterate_creation() {
     return 0;
 }
 
+static char * test_set_grid_coord() {
+    GOL g = gol_create_grid(10, 10);
+
+    int ok_check_value = gol_set_grid_coord(g, 1, 1, 1);
+
+    mu_assert("Error: set correct coord should return 1", ok_check_value == 1);
+    mu_assert("Error: set_grid_coord should include offset", g->grid[2][2] == 1);
+
+    int bad_check_value = gol_set_grid_coord(g, 1, 13, 1);
+
+    mu_assert("Error: set incorrect coord should return 0", bad_check_value == 0);
+
+    gol_cleanup_grid(g);
+    return 0;
+}
+
+static char * test_get_grid_coord() {
+    GOL g = gol_create_grid(10, 10);
+
+    gol_set_grid_coord(g, 1, 1, 1);
+    int ok_grid_value = gol_get_grid_coord(g, 1, 1);
+
+    mu_assert("Error: get correct coord should return 1", ok_grid_value == 1);
+
+    int bad_grid_value = gol_get_grid_coord(g, 1, 13);
+
+    mu_assert("Error: get incorrect coord should return -1", bad_grid_value == -1);
+
+    gol_cleanup_grid(g);
+    return 0;
+}
+
 static char * test_iterate_all_zeros() {
     GOL g = gol_create_grid(10, 10);
 
@@ -67,6 +99,8 @@ static char * test_iterate_all_ones() {
 
 char * test_gol() {
     mu_run_test(test_creation);
+    mu_run_test(test_set_grid_coord);
+    mu_run_test(test_get_grid_coord);
     mu_run_test(test_iterate_creation);
     mu_run_test(test_iterate_all_zeros);
     mu_run_test(test_iterate_all_ones);
