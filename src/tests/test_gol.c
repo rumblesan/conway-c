@@ -1,3 +1,4 @@
+#include <stdlib.h>
 
 #include "tests/min_unit.h"
 #include "tests/test_gol.h"
@@ -97,6 +98,23 @@ static char * test_iterate_all_ones() {
     return 0;
 }
 
+// No specific test cases
+// Just exercise all the code to check for errors
+static char * test_iterate_rand_grid() {
+    GOL g = gol_create_grid(10, 10);
+
+    for (int x = 0; x < g->cells_x; x++) {
+        for (int y = 0; y < g->cells_y; y++) {
+            gol_set_grid_coord(g, x, y, rand()%2);
+        }
+    }
+
+    GOL new_g = gol_iterate_grid(g);
+
+    gol_cleanup_grid(new_g);
+    return 0;
+}
+
 char * test_gol() {
     mu_run_test(test_creation);
     mu_run_test(test_set_grid_coord);
@@ -104,6 +122,7 @@ char * test_gol() {
     mu_run_test(test_iterate_creation);
     mu_run_test(test_iterate_all_zeros);
     mu_run_test(test_iterate_all_ones);
+    mu_run_test(test_iterate_rand_grid);
 
     return 0;
 }
