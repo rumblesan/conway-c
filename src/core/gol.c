@@ -34,6 +34,13 @@ int gol_set_grid_coord(GOL g, int x, int y, int value) {
     return 0;
 }
 
+int gol_get_grid_coord(GOL g, int x, int y) {
+    if ((x >= 0) && (x < g->cells_x-1) && (y >= 0) && (y < g->cells_y-1)) {
+        return g->grid[x+1][y+1];
+    }
+    return -1;
+}
+
 GOL gol_iterate_grid(GOL g) {
 
     GOL new_g = gol_create_grid(g->cells_x, g->cells_y);

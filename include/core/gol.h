@@ -15,6 +15,8 @@ GOL gol_create_grid(int x, int y);
 
 int gol_set_grid_coord(GOL g, int x, int y, int value);
 
+int gol_get_grid_coord(GOL g, int x, int y);
+
 GOL gol_iterate_grid(GOL g);
 
 void gol_cleanup_grid(GOL g);
