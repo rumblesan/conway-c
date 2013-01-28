@@ -3,7 +3,7 @@ CFLAGS            = -Wall
 LDFLAGS           = -c
 VPATH             = src src/core src/tests
 LIBS              = 
-SDLFLAGS          = `sdl-config --cflags --libs`
+SDL_FLAGS         = `sdl-config --cflags --libs`
 
 TEST_CFLAGS       = --coverage $(CFLAGS)
 TEST_LIBS         = -lprofile_rt
@@ -49,7 +49,7 @@ $(EXECUTABLE): $(MAIN_OBJECTS)
 	$(CC) $(CFLAGS) $(MAIN_OBJECTS) $(SDL_FLAGS) -o $@
 
 $(TEST_EXECUTABLE): $(TEST_OBJECTS)
-	$(CC) $(TEST_LIBS) $(TEST_CFLAGS) $(TEST_OBJECTS)  $(SDL_FLAGS) -o $@
+	$(CC) $(TEST_LIBS) $(TEST_CFLAGS) $(TEST_OBJECTS) $(SDL_FLAGS) -o $@
 
 clean:
 	rm -rf $(MAIN_BUILD_DIR)/* $(EXECUTABLE)
