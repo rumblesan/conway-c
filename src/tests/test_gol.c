@@ -75,10 +75,10 @@ static char * test_iterate_all_zeros() {
 
     GOL new_g = gol_iterate_grid(g);
 
-    // add the 2 because we have the buffers on the grid
-    for (int x = 0; x < (new_g->cells_x +  2); x++) {
-        for (int y = 0; y < (new_g->cells_y + 2); y++) {
-            mu_assert("Error: grid coord should be 0", new_g->grid[x][y] == 0);
+    for (int x = 0; x < new_g->cells_x; x++) {
+        for (int y = 0; y < new_g->cells_y; y++) {
+            // All the cells should be unchanged
+            mu_assert("Error: grid coord should be 0", gol_get_grid_coord(new_g, x, y) == 0);
         }
     }
 
@@ -90,6 +90,8 @@ static char * test_iterate_all_ones() {
     GOL g = gol_create_grid(10, 10);
 
     // add the 2 because we have the buffers on the grid
+    // make sure to set all the buffers to 1
+    // otherwise corner cells won't die
     for (int x = 0; x < (g->cells_x + 2); x++) {
         for (int y = 0; y < (g->cells_y + 2); y++) {
             g->grid[x][y] = 1;
@@ -98,11 +100,10 @@ static char * test_iterate_all_ones() {
 
     GOL new_g = gol_iterate_grid(g);
 
-    // offset by 1 because we only care about the inner section
-    for (int x = 1; x < (new_g->cells_x + 1); x++) {
-        for (int y = 1; y < (new_g->cells_y + 1); y++) {
+    for (int x = 0; x < new_g->cells_x; x++) {
+        for (int y = 0; y < new_g->cells_y; y++) {
             // All the cells should have died due to overcrowding
-            mu_assert("Error: grid coord should be 0", new_g->grid[x][y] == 0);
+            mu_assert("Error: grid coord should be 0", gol_get_grid_coord(new_g, x, y) == 0);
         }
     }
 
