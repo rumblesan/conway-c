@@ -9,13 +9,13 @@ GOL gol_create_grid(int x_val, int y_val) {
     g->cells_x = x_val;
     g->cells_y = y_val;
 
-    g->grid = (int **) malloc(sizeof(int *) * g->cells_x);
+    g->grid = (int **) malloc(sizeof(int *) * (g->cells_x + 2));
 
     // Add an extra row of cells onto each edge
     // This will be used as a buffer when iterating a grid
     // It will always be zero
     for (int x = 0; x < (g->cells_x + 2); x++) {
-        g->grid[x] = (int *) malloc(sizeof(int) * g->cells_y);
+        g->grid[x] = (int *) malloc(sizeof(int) * (g->cells_y + 2));
 
         for (int y = 0; y < (g->cells_y + 2); y++) {
             g->grid[x][y] = 0;
