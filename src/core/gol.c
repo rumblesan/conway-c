@@ -32,8 +32,8 @@ GOL gol_iterate_grid(GOL g) {
 
     // Iterate between 1 and (cells_x + 1) so we don't touch the buffer
     int value;
-    for (int x = 1; x < (g->cells_x + 2); x++) {
-        for (int y = 1; y < (g->cells_x + 2); y++) {
+    for (int x = 1; x < (g->cells_x + 1); x++) {
+        for (int y = 1; y < (g->cells_x + 1); y++) {
 
             value = 0;
             value += g->grid[x-1][y-1];
