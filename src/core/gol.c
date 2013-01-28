@@ -61,7 +61,9 @@ GOL gol_iterate_grid(GOL g) {
         }
     }
 
-    return g;
+    gol_cleanup_grid(g);
+
+    return new_g;
 }
 
 void gol_cleanup_grid(GOL g) {
