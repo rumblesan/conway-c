@@ -26,11 +26,15 @@ GOL gol_create_grid(int x_val, int y_val) {
     return g;
 }
 
-void gol_randomise_grid(GOL g) {
+void gol_randomise_grid(GOL g, float threshold) {
 
     for (int x = 0; x < g->cells_x; x++) {
         for (int y = 0; y < g->cells_x; y++) {
-            gol_set_grid_coord(g, x, y, rand()%2);
+            if ((rand() / (float) RAND_MAX) > threshold) {
+                gol_set_grid_coord(g, x, y, 1);
+            } else {
+                gol_set_grid_coord(g, x, y, 0);
+            }
         }
     }
 

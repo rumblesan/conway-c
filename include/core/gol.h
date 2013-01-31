@@ -13,7 +13,7 @@ typedef struct gol_grid {
 
 GOL gol_create_grid(int x, int y);
 
-void gol_randomise_grid(GOL g);
+void gol_randomise_grid(GOL g, float threshold);
 
 int gol_set_grid_coord(GOL g, int x, int y, int value);
 
