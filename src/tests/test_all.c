@@ -27,6 +27,7 @@ int main(int argc, char *argv[]) {
 
     result = result || (gol_results != 0);
 
+    /*
     tests_run = 0;
     char *gfx_results = test_gfx();
     if (gfx_results != 0) {
@@ -38,6 +39,7 @@ int main(int argc, char *argv[]) {
     printf("\n");
 
     result = result || (gfx_results != 0);
+    */
 
     return result;
 }
