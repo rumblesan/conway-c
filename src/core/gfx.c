@@ -32,11 +32,6 @@ Screen gfx_create_screen() {
 
     Screen s = (Screen) malloc(sizeof(GFX_Screen));
 
-    const SDL_VideoInfo* vid_info = SDL_GetVideoInfo();
-
-    s->width  = vid_info->current_w;
-    s->height = vid_info->current_h;
-
     if (SDL_Init(SDL_INIT_VIDEO) < 0 ) {
         return 0;
     }
@@ -46,6 +41,11 @@ Screen gfx_create_screen() {
         SDL_Quit();
         return 0;
     }
+
+    const SDL_VideoInfo* vid_info = SDL_GetVideoInfo();
+
+    s->width  = vid_info->current_w;
+    s->height = vid_info->current_h;
 
     return s;
 }
