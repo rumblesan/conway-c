@@ -1,4 +1,5 @@
 #include <SDL/SDL.h>
+#include <math.h>
 
 #include "core/gfx.h"
 #include "core/gol.h"
@@ -56,7 +57,26 @@ void gfx_draw_screen(GOL g, Screen s)
         if(SDL_LockSurface(s->screen) < 0) return;
     }
 
-    // Drawing from grid goes here
+    float x_size = s->width / g->cells_x;
+    float y_size = s->height / g->cells_y;
+
+    float cell_size;
+
+    if (x_size < y_size) {
+        cell_size = round(x_size);
+    } else {
+        cell_size = round(y_size);
+    }
+
+    for (int x = 0; x < g->cells_x; x++) {
+        for (int y = 0; y < g->cells_y; y++) {
+            if (gol_get_grid_coord(g, x, y)) {
+                draw_rect(s, x, y, cell_size, cell_size, 255, 255, 255);
+            } else {
+                draw_rect(s, x, y, cell_size, cell_size, 0, 0, 0);
+            }
+        }
+    }
 
     if(SDL_MUSTLOCK(s->screen)) {
         SDL_UnlockSurface(s->screen);
