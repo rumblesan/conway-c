@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <SDL/SDL.h>
 #include <math.h>
 
@@ -20,9 +21,9 @@ void draw_rect(Screen s, int x_coord, int y_coord, int height, int width, colour
     int yPos;
 
     for (int y = 0; y < height; y++) {
-        yPos = ((y_coord + y) * s->screen->pitch) / BPP;
+        yPos = (((y_coord * height) + y) * s->screen->pitch) / BPP;
         for (int x = 0; x < width; x++) {
-            setpixel(s, (x + x_coord), yPos, r, g, b);
+            setpixel(s, (x + (x_coord * width)), yPos, r, g, b);
         }
     }
 
@@ -60,7 +61,7 @@ void gfx_draw_screen(GOL g, Screen s)
     float x_size = s->width / g->cells_x;
     float y_size = s->height / g->cells_y;
 
-    float cell_size;
+    int cell_size;
 
     if (x_size < y_size) {
         cell_size = round(x_size);
