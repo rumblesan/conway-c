@@ -18,7 +18,7 @@ int main(int argc, char* argv[])
 
     GOL g = gol_create_grid(100, 100);
 
-    gol_randomise_grid(g);
+    gol_randomise_grid(g, 0.9);
     g = gol_iterate_grid(g);
     gfx_draw_screen(g, s);
 
