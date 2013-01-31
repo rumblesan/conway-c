@@ -14,6 +14,19 @@ void setpixel(Screen s, int x, int y, colour r, colour g, colour b)
     *pixmem32 = colour;
 }
 
+void draw_rect(Screen s, int x_coord, int y_coord, int height, int width, colour r, colour g, colour b) {
+
+    int yPos;
+
+    for (int y = 0; y < height; y++) {
+        yPos = ((y_coord + y) * s->screen->pitch) / BPP;
+        for (int x = 0; x < width; x++) {
+            setpixel(s, (x + x_coord), yPos, r, g, b);
+        }
+    }
+
+}
+
 Screen gfx_create_screen() {
 
     Screen s = (Screen) malloc(sizeof(GFX_Screen));
