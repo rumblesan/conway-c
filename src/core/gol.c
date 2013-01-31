@@ -26,6 +26,16 @@ GOL gol_create_grid(int x_val, int y_val) {
     return g;
 }
 
+void gol_randomise_grid(GOL g) {
+
+    for (int x = 0; x < g->cells_x; x++) {
+        for (int y = 0; y < g->cells_x; y++) {
+            gol_set_grid_coord(g, x, y, rand()%2);
+        }
+    }
+
+}
+
 int gol_set_grid_coord(GOL g, int x, int y, int value) {
     if ((x >= 0) && (x < g->cells_x) && (y >= 0) && (y < g->cells_y)) {
         g->grid[x+1][y+1] = value;

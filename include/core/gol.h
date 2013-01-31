@@ -13,6 +13,8 @@ typedef struct gol_grid {
 
 GOL gol_create_grid(int x, int y);
 
+void gol_randomise_grid(GOL g);
+
 int gol_set_grid_coord(GOL g, int x, int y, int value);
 
 int gol_get_grid_coord(GOL g, int x, int y);
