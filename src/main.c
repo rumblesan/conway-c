@@ -18,6 +18,8 @@ int main(int argc, char* argv[])
 
     GOL g = gol_create_grid(100, 100);
 
+    gol_randomise_grid(g);
+
     while(running) {
         while(SDL_PollEvent(&event)) {
 
@@ -39,12 +41,16 @@ int main(int argc, char* argv[])
                 break;
 
             case SDL_MOUSEBUTTONDOWN:
-                //iterate cells
+                g = gol_iterate_grid(g);
+                gfx_draw_screen(g, s);
                 break;
             }
         }
     }
 
+    gol_cleanup_grid(g);
+
+    gfx_cleanup_screen(s);
 
     return 0;
 
