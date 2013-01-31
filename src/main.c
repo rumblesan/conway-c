@@ -19,6 +19,8 @@ int main(int argc, char* argv[])
     GOL g = gol_create_grid(100, 100);
 
     gol_randomise_grid(g);
+    g = gol_iterate_grid(g);
+    gfx_draw_screen(g, s);
 
     while(running) {
         while(SDL_PollEvent(&event)) {
