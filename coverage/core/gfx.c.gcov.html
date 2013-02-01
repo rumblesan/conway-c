@@ -32,16 +32,16 @@
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntry">0</td>
-            <td class="headerCovTableEntry">31</td>
+            <td class="headerCovTableEntry">47</td>
             <td class="headerCovTableEntryLo">0.0 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2013-01-28</td>
+            <td class="headerValue">2013-01-31</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
-            <td class="headerCovTableEntry">4</td>
+            <td class="headerCovTableEntry">5</td>
             <td class="headerCovTableEntryLo">0.0 %</td>
           </tr>
           <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
@@ -60,66 +60,100 @@
       <td>
 <pre class="sourceHeading">          Line data    Source code</pre>
 <pre class="source">
-<a name="1"><span class="lineNum">       1 </span>            : #include &lt;SDL/SDL.h&gt;</a>
-<span class="lineNum">       2 </span>            : 
-<span class="lineNum">       3 </span>            : #include &quot;core/gfx.h&quot;
-<a name="4"><span class="lineNum">       4 </span>            : #include &quot;core/gol.h&quot;</a>
-<span class="lineNum">       5 </span>            : 
-<span class="lineNum">       6 </span><span class="lineNoCov">          0 : void setpixel(Screen s, int x, int y, colour r, colour g, colour b)</span>
-<span class="lineNum">       7 </span>            : {
-<span class="lineNum">       8 </span><span class="lineNoCov">          0 :     Uint32 *pixmem32;</span>
-<span class="lineNum">       9 </span><span class="lineNoCov">          0 :     Uint32 colour;  </span>
-<span class="lineNum">      10 </span>            :  
-<span class="lineNum">      11 </span><span class="lineNoCov">          0 :     colour = SDL_MapRGB( s-&gt;screen-&gt;format, r, g, b );</span>
-<span class="lineNum">      12 </span>            :   
-<span class="lineNum">      13 </span><span class="lineNoCov">          0 :     pixmem32 = (Uint32*) s-&gt;screen-&gt;pixels  + y + x;</span>
-<span class="lineNum">      14 </span><span class="lineNoCov">          0 :     *pixmem32 = colour;</span>
-<a name="15"><span class="lineNum">      15 </span><span class="lineNoCov">          0 : }</span></a>
-<span class="lineNum">      16 </span>            : 
-<span class="lineNum">      17 </span>            : Screen gfx_create_screen() {
+<a name="1"><span class="lineNum">       1 </span>            : #include &lt;stdio.h&gt;</a>
+<span class="lineNum">       2 </span>            : #include &lt;SDL/SDL.h&gt;
+<span class="lineNum">       3 </span>            : #include &lt;math.h&gt;
+<span class="lineNum">       4 </span>            : 
+<span class="lineNum">       5 </span>            : #include &quot;core/gfx.h&quot;
+<a name="6"><span class="lineNum">       6 </span>            : #include &quot;core/gol.h&quot;</a>
+<span class="lineNum">       7 </span>            : 
+<span class="lineNum">       8 </span>            : void setpixel(Screen s, int x, int y, colour r, colour g, colour b)
+<span class="lineNum">       9 </span>            : {
+<span class="lineNum">      10 </span>            :     Uint32 *pixmem32;
+<span class="lineNum">      11 </span>            :     Uint32 colour;  
+<span class="lineNum">      12 </span>            :  
+<span class="lineNum">      13 </span><span class="lineNoCov">          0 :     colour = SDL_MapRGB( s-&gt;screen-&gt;format, r, g, b );</span>
+<span class="lineNum">      14 </span>            :   
+<span class="lineNum">      15 </span><span class="lineNoCov">          0 :     pixmem32 = (Uint32*) s-&gt;screen-&gt;pixels  + y + x;</span>
+<span class="lineNum">      16 </span><span class="lineNoCov">          0 :     *pixmem32 = colour;</span>
+<a name="17"><span class="lineNum">      17 </span><span class="lineNoCov">          0 : }</span></a>
 <span class="lineNum">      18 </span>            : 
-<span class="lineNum">      19 </span><span class="lineNoCov">          0 :     Screen s = (Screen) malloc(sizeof(GFX_Screen));</span>
+<span class="lineNum">      19 </span>            : void draw_rect(Screen s, int x_coord, int y_coord, int height, int width, colour r, colour g, colour b) {
 <span class="lineNum">      20 </span>            : 
-<span class="lineNum">      21 </span><span class="lineNoCov">          0 :     const SDL_VideoInfo* vid_info = SDL_GetVideoInfo();</span>
+<span class="lineNum">      21 </span>            :     int yPos;
 <span class="lineNum">      22 </span>            : 
-<span class="lineNum">      23 </span><span class="lineNoCov">          0 :     s-&gt;width  = vid_info-&gt;current_w;</span>
-<span class="lineNum">      24 </span><span class="lineNoCov">          0 :     s-&gt;height = vid_info-&gt;current_h;</span>
-<span class="lineNum">      25 </span>            : 
-<span class="lineNum">      26 </span><span class="lineNoCov">          0 :     if (SDL_Init(SDL_INIT_VIDEO) &lt; 0 ) {</span>
-<span class="lineNum">      27 </span><span class="lineNoCov">          0 :         return 0;</span>
-<span class="lineNum">      28 </span>            :     }
+<span class="lineNum">      23 </span><span class="lineNoCov">          0 :     for (int y = 0; y &lt; height; y++) {</span>
+<span class="lineNum">      24 </span><span class="lineNoCov">          0 :         yPos = (((y_coord * height) + y) * s-&gt;screen-&gt;pitch) / BPP;</span>
+<span class="lineNum">      25 </span><span class="lineNoCov">          0 :         for (int x = 0; x &lt; width; x++) {</span>
+<span class="lineNum">      26 </span><span class="lineNoCov">          0 :             setpixel(s, (x + (x_coord * width)), yPos, r, g, b);</span>
+<span class="lineNum">      27 </span><span class="lineNoCov">          0 :         }</span>
+<span class="lineNum">      28 </span><span class="lineNoCov">          0 :     }</span>
 <span class="lineNum">      29 </span>            : 
-<span class="lineNum">      30 </span><span class="lineNoCov">          0 :     if (!(s-&gt;screen = SDL_SetVideoMode(0, 0, DEPTH, SDL_FULLSCREEN|SDL_HWSURFACE)))</span>
-<span class="lineNum">      31 </span>            :     {
-<span class="lineNum">      32 </span><span class="lineNoCov">          0 :         SDL_Quit();</span>
-<span class="lineNum">      33 </span><span class="lineNoCov">          0 :         return 0;</span>
-<span class="lineNum">      34 </span>            :     }
+<a name="30"><span class="lineNum">      30 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">      31 </span>            : 
+<span class="lineNum">      32 </span>            : Screen gfx_create_screen() {
+<span class="lineNum">      33 </span>            : 
+<span class="lineNum">      34 </span><span class="lineNoCov">          0 :     Screen s = (Screen) malloc(sizeof(GFX_Screen));</span>
 <span class="lineNum">      35 </span>            : 
-<span class="lineNum">      36 </span><span class="lineNoCov">          0 :     return s;</span>
-<a name="37"><span class="lineNum">      37 </span><span class="lineNoCov">          0 : }</span></a>
-<span class="lineNum">      38 </span>            : 
-<span class="lineNum">      39 </span><span class="lineNoCov">          0 : void gfx_draw_screen(GOL g, Screen s)</span>
-<span class="lineNum">      40 </span>            : { 
-<span class="lineNum">      41 </span><span class="lineNoCov">          0 :     if(SDL_MUSTLOCK(s-&gt;screen)) </span>
-<span class="lineNum">      42 </span>            :     {
-<span class="lineNum">      43 </span><span class="lineNoCov">          0 :         if(SDL_LockSurface(s-&gt;screen) &lt; 0) return;</span>
-<span class="lineNum">      44 </span><span class="lineNoCov">          0 :     }</span>
+<span class="lineNum">      36 </span><span class="lineNoCov">          0 :     if (SDL_Init(SDL_INIT_VIDEO) &lt; 0 ) {</span>
+<span class="lineNum">      37 </span><span class="lineNoCov">          0 :         return 0;</span>
+<span class="lineNum">      38 </span>            :     }
+<span class="lineNum">      39 </span>            : 
+<span class="lineNum">      40 </span><span class="lineNoCov">          0 :     if (!(s-&gt;screen = SDL_SetVideoMode(0, 0, DEPTH, SDL_FULLSCREEN|SDL_HWSURFACE)))</span>
+<span class="lineNum">      41 </span>            :     {
+<span class="lineNum">      42 </span><span class="lineNoCov">          0 :         SDL_Quit();</span>
+<span class="lineNum">      43 </span><span class="lineNoCov">          0 :         return 0;</span>
+<span class="lineNum">      44 </span>            :     }
 <span class="lineNum">      45 </span>            : 
-<span class="lineNum">      46 </span>            :     // Drawing from grid goes here
+<span class="lineNum">      46 </span><span class="lineNoCov">          0 :     const SDL_VideoInfo* vid_info = SDL_GetVideoInfo();</span>
 <span class="lineNum">      47 </span>            : 
-<span class="lineNum">      48 </span><span class="lineNoCov">          0 :     if(SDL_MUSTLOCK(s-&gt;screen)) {</span>
-<span class="lineNum">      49 </span><span class="lineNoCov">          0 :         SDL_UnlockSurface(s-&gt;screen);</span>
-<span class="lineNum">      50 </span><span class="lineNoCov">          0 :     }</span>
-<span class="lineNum">      51 </span>            :   
-<span class="lineNum">      52 </span><span class="lineNoCov">          0 :     SDL_Flip(s-&gt;screen); </span>
-<a name="53"><span class="lineNum">      53 </span><span class="lineNoCov">          0 : }</span></a>
-<span class="lineNum">      54 </span>            : 
-<span class="lineNum">      55 </span><span class="lineNoCov">          0 : void gfx_cleanup_screen(Screen s) {</span>
-<span class="lineNum">      56 </span>            : 
-<span class="lineNum">      57 </span><span class="lineNoCov">          0 :     SDL_Quit();</span>
-<span class="lineNum">      58 </span><span class="lineNoCov">          0 :     free(s);</span>
-<span class="lineNum">      59 </span><span class="lineNoCov">          0 : }</span>
+<span class="lineNum">      48 </span><span class="lineNoCov">          0 :     s-&gt;width  = vid_info-&gt;current_w;</span>
+<span class="lineNum">      49 </span><span class="lineNoCov">          0 :     s-&gt;height = vid_info-&gt;current_h;</span>
+<span class="lineNum">      50 </span>            : 
+<span class="lineNum">      51 </span><span class="lineNoCov">          0 :     return s;</span>
+<a name="52"><span class="lineNum">      52 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">      53 </span>            : 
+<span class="lineNum">      54 </span>            : void gfx_draw_screen(GOL g, Screen s)
+<span class="lineNum">      55 </span>            : { 
+<span class="lineNum">      56 </span><span class="lineNoCov">          0 :     if(SDL_MUSTLOCK(s-&gt;screen)) </span>
+<span class="lineNum">      57 </span>            :     {
+<span class="lineNum">      58 </span><span class="lineNoCov">          0 :         if(SDL_LockSurface(s-&gt;screen) &lt; 0) return;</span>
+<span class="lineNum">      59 </span><span class="lineNoCov">          0 :     }</span>
 <span class="lineNum">      60 </span>            : 
+<span class="lineNum">      61 </span><span class="lineNoCov">          0 :     float x_size = s-&gt;width / g-&gt;cells_x;</span>
+<span class="lineNum">      62 </span><span class="lineNoCov">          0 :     float y_size = s-&gt;height / g-&gt;cells_y;</span>
+<span class="lineNum">      63 </span>            : 
+<span class="lineNum">      64 </span>            :     int cell_size;
+<span class="lineNum">      65 </span>            : 
+<span class="lineNum">      66 </span><span class="lineNoCov">          0 :     if (x_size &lt; y_size) {</span>
+<span class="lineNum">      67 </span><span class="lineNoCov">          0 :         cell_size = round(x_size);</span>
+<span class="lineNum">      68 </span><span class="lineNoCov">          0 :     } else {</span>
+<span class="lineNum">      69 </span><span class="lineNoCov">          0 :         cell_size = round(y_size);</span>
+<span class="lineNum">      70 </span>            :     }
+<span class="lineNum">      71 </span>            : 
+<span class="lineNum">      72 </span><span class="lineNoCov">          0 :     for (int x = 0; x &lt; g-&gt;cells_x; x++) {</span>
+<span class="lineNum">      73 </span><span class="lineNoCov">          0 :         for (int y = 0; y &lt; g-&gt;cells_y; y++) {</span>
+<span class="lineNum">      74 </span><span class="lineNoCov">          0 :             if (gol_get_grid_coord(g, x, y)) {</span>
+<span class="lineNum">      75 </span><span class="lineNoCov">          0 :                 draw_rect(s, x, y, cell_size, cell_size, 255, 255, 255);</span>
+<span class="lineNum">      76 </span><span class="lineNoCov">          0 :             } else {</span>
+<span class="lineNum">      77 </span><span class="lineNoCov">          0 :                 draw_rect(s, x, y, cell_size, cell_size, 0, 0, 0);</span>
+<span class="lineNum">      78 </span>            :             }
+<span class="lineNum">      79 </span><span class="lineNoCov">          0 :         }</span>
+<span class="lineNum">      80 </span><span class="lineNoCov">          0 :     }</span>
+<span class="lineNum">      81 </span>            : 
+<span class="lineNum">      82 </span><span class="lineNoCov">          0 :     if(SDL_MUSTLOCK(s-&gt;screen)) {</span>
+<span class="lineNum">      83 </span><span class="lineNoCov">          0 :         SDL_UnlockSurface(s-&gt;screen);</span>
+<span class="lineNum">      84 </span><span class="lineNoCov">          0 :     }</span>
+<span class="lineNum">      85 </span>            :   
+<span class="lineNum">      86 </span><span class="lineNoCov">          0 :     SDL_Flip(s-&gt;screen); </span>
+<a name="87"><span class="lineNum">      87 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">      88 </span>            : 
+<span class="lineNum">      89 </span>            : void gfx_cleanup_screen(Screen s) {
+<span class="lineNum">      90 </span>            : 
+<span class="lineNum">      91 </span><span class="lineNoCov">          0 :     SDL_Quit();</span>
+<span class="lineNum">      92 </span><span class="lineNoCov">          0 :     free(s);</span>
+<span class="lineNum">      93 </span><span class="lineNoCov">          0 : }</span>
+<span class="lineNum">      94 </span>            : 
 </pre>
       </td>
     </tr>
