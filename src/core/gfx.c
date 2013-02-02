@@ -60,23 +60,12 @@ void gfx_draw_screen(GOL g, Screen s)
         if(SDL_LockSurface(s->screen) < 0) return;
     }
 
-    float x_size = s->width / g->cells_x;
-    float y_size = s->height / g->cells_y;
-
-    int cell_size;
-
-    if (x_size < y_size) {
-        cell_size = round(x_size);
-    } else {
-        cell_size = round(y_size);
-    }
-
     for (int x = 0; x < g->cells_x; x++) {
         for (int y = 0; y < g->cells_y; y++) {
             if (gol_get_grid_coord(g, x, y)) {
-                draw_rect(s, x, y, cell_size, cell_size, 255, 255, 255);
+                draw_rect(s, x, y, s->cell_size, s->cell_size, 255, 255, 255);
             } else {
-                draw_rect(s, x, y, cell_size, cell_size, 0, 0, 0);
+                draw_rect(s, x, y, s->cell_size, s->cell_size, 0, 0, 0);
             }
         }
     }
