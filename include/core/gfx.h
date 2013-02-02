@@ -20,8 +20,6 @@ typedef struct gfx_screen {
 
 } GFX_Screen;
 
-typedef Uint8 colour;
-
 Screen gfx_create_screen();
 
 Screen gfx_create_screen(int cell_size);
