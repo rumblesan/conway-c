@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <math.h>
 
 #include "core/gfx.h"
 #include "core/gol.h"
@@ -8,7 +9,7 @@ int main(int argc, char* argv[])
 
     int running = 1;
 
-    Screen s = gfx_create_screen();
+    Screen s = gfx_create_screen(16);
 
     if (!s) {
         return 1;
@@ -16,7 +17,10 @@ int main(int argc, char* argv[])
 
     SDL_Event event;
 
-    GOL g = gol_create_grid(100, 100);
+    int grid_x_cells = round(s->width / s->cell_size);
+    int grid_y_cells = round(s->height / s->cell_size);
+
+    GOL g = gol_create_grid(grid_x_cells, grid_y_cells);
 
     gol_randomise_grid(g, 0.9);
     g = gol_iterate_grid(g);
