@@ -4,26 +4,27 @@
 
 #include "core/gfx.h"
 #include "core/gol.h"
+#include "core/colour.h"
 
-void setpixel(Screen s, int x, int y, colour r, colour g, colour b)
+void setpixel(Screen s, int x, int y, colour c)
 {
     Uint32 *pixmem32;
     Uint32 colour;  
  
-    colour = SDL_MapRGB( s->screen->format, r, g, b );
+    colour = SDL_MapRGB( s->screen->format, colour_get_red(c), colour_get_green(c), colour_get_blue(c));
   
     pixmem32 = (Uint32*) s->screen->pixels  + y + x;
     *pixmem32 = colour;
 }
 
-void draw_rect(Screen s, int x_coord, int y_coord, int height, int width, colour r, colour g, colour b) {
+void draw_rect(Screen s, int x_coord, int y_coord, int height, int width, colour c) {
 
     int yPos;
 
     for (int y = 0; y < height; y++) {
         yPos = (((y_coord * height) + y) * s->screen->pitch) / BPP;
         for (int x = 0; x < width; x++) {
-            setpixel(s, (x + (x_coord * width)), yPos, r, g, b);
+            setpixel(s, (x + (x_coord * width)), yPos, c);
         }
     }
 
@@ -63,9 +64,9 @@ void gfx_draw_screen(GOL g, Screen s)
     for (int x = 0; x < g->cells_x; x++) {
         for (int y = 0; y < g->cells_y; y++) {
             if (gol_get_grid_coord(g, x, y)) {
-                draw_rect(s, x, y, s->cell_size, s->cell_size, 255, 255, 255);
+                draw_rect(s, x, y, s->cell_size, s->cell_size, colour_create(255, 255, 255));
             } else {
-                draw_rect(s, x, y, s->cell_size, s->cell_size, 0, 0, 0);
+                draw_rect(s, x, y, s->cell_size, s->cell_size, colour_create(0, 0, 0));
             }
         }
     }
