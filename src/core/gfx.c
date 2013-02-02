@@ -29,7 +29,7 @@ void draw_rect(Screen s, int x_coord, int y_coord, int height, int width, colour
 
 }
 
-Screen gfx_create_screen() {
+Screen gfx_create_screen(int cell_size) {
 
     Screen s = (Screen) malloc(sizeof(GFX_Screen));
 
@@ -47,6 +47,8 @@ Screen gfx_create_screen() {
 
     s->width  = vid_info->current_w;
     s->height = vid_info->current_h;
+
+    s->cell_size = cell_size;
 
     return s;
 }

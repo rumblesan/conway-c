@@ -14,6 +14,8 @@ typedef struct gfx_screen {
     int width;
     int height;
 
+    int cell_size;
+
     SDL_Surface *screen;
 
 } GFX_Screen;
@@ -21,6 +23,8 @@ typedef struct gfx_screen {
 typedef Uint8 colour;
 
 Screen gfx_create_screen();
+
+Screen gfx_create_screen(int cell_size);
 
 void gfx_draw_screen(GOL g, Screen s);
 
